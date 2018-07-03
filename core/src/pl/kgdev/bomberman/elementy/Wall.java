@@ -3,7 +3,7 @@ package pl.kgdev.bomberman.elementy;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import pl.kgdev.bomberman.Kolizje.CollisionRect;
+import pl.kgdev.bomberman.KolizjeiEventy.CollisionRect;
 
 public class Wall extends Rectangle {
     private static Texture texture;

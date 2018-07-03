@@ -2,7 +2,7 @@ package pl.kgdev.bomberman.elementy;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import pl.kgdev.bomberman.Kolizje.CollisionRect;
+import pl.kgdev.bomberman.KolizjeiEventy.CollisionRect;
 
 public class Bush {
     private static Texture texture;

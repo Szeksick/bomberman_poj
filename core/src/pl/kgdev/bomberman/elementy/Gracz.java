@@ -5,12 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
-import pl.kgdev.bomberman.Kolizje.CollisionRect;
-import pl.kgdev.bomberman.Screens.GameScreen;
+import pl.kgdev.bomberman.KolizjeiEventy.CollisionRect;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 
 public class Gracz{
@@ -23,7 +20,7 @@ public class Gracz{
     public static final int HEIGHT = 40;
     private float delta = Gdx.graphics.getDeltaTime();
     private int MOVE_TIMER = 1;
-    private static final float BOMB_WAIT_TIME = 0.9f;
+    private static final float BOMB_WAIT_TIME = 0.9f, HIT_WAIT_TIME = 1.9f;
     public int HIT_POINTS = 100;
 
     Animation[] moves;//deklaracja tablicy animacji
@@ -36,9 +33,8 @@ public class Gracz{
     public boolean DOWN_BLOCKED = false;
     CollisionRect rect;
     int move;
-    float moveTimer;
-    float stateTime;
-    float bomb_timer;
+    float moveTimer,bomb_timer,stateTime, hit_timer;
+
 
     public Gracz(float x, float y){
     this.x = 50*Math.round(x/50);;
@@ -46,6 +42,7 @@ public class Gracz{
     this.rect = new CollisionRect(x,y,WIDTH, HEIGHT);
     move = 1;
     bomb_timer = 0;
+    hit_timer = 0;
     moveTimer = 0;
     moves = new Animation[4];//definicja tablicy animacji
     //siekam sprajta to nie fanta
@@ -100,6 +97,7 @@ public class Gracz{
 
     public void update(float delta) {
         bomb_timer += delta;
+        hit_timer += delta;
         rect.move(this.x, this.y);
         RIGHT_BLOCKED = false;
         LEFT_BLOCKED = false;
@@ -111,4 +109,10 @@ public class Gracz{
         return rect;
     }
 
+    public void getHit(int moc) {
+        if(hit_timer>=HIT_WAIT_TIME){
+            this.HIT_POINTS -= moc;
+            hit_timer=0;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package pl.kgdev.bomberman.Kolizje;
+package pl.kgdev.bomberman.KolizjeiEventy;
 
 import com.badlogic.gdx.math.Rectangle;
 import pl.kgdev.bomberman.Bomberman;

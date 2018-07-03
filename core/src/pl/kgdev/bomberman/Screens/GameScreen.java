@@ -3,6 +3,7 @@ package pl.kgdev.bomberman.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import pl.kgdev.bomberman.Bomberman;
 import pl.kgdev.bomberman.elementy.*;
@@ -159,15 +160,21 @@ public class GameScreen implements Screen {
         bombydousunieca.removeAll(bombydousunieca);
         ArrayList<Mob> mobydousuniecia = new ArrayList<Mob>();
         for (Mob mob: moby) {
+            if(mob.getCollisionRect().collidesWith(g1.getCollisionRect())){
+                g1.getHit(20);
+            }
             mob.update(delta);
-            if(mob.state == 3)
+            if(mob.state == 3|| mob.x>0 || mob.y>0||mob.x>Bomberman.WIDTH || mob.y>Bomberman.HEIGHT) {
                 mobydousuniecia.add(mob);
+                System.out.println("Mob koliduje x:"+mob.x+" y:"+mob.y);
+            }
         }
 
         //śmierć gracza
         if(g1.HIT_POINTS<=0) {
-            this.dispose();
-            game.setScreen(new StatsScreen(game));
+           // this.dispose();
+           // game.setScreen(new StatsScreen(game));
+            this.pause();
         }
         g1.update(delta);
 
@@ -179,10 +186,15 @@ public class GameScreen implements Screen {
 
         //otwieram wiadro z farba i maluje
         game.batch.begin();
+
         for(Bomb bomb: bomby) bomb.render(this.game.batch);
         for(Mob mob: moby)mob.render(this.game.batch);
         for (Wall wall:walls) wall.render(this.game.batch);
         for (Bush busz:bush) busz.render(this.game.batch);
+        game.font.setColor(Color.GREEN);
+        game.font.draw(game.batch,"ZYCIE : ",300,25);
+        game.font.setColor(Color.RED);
+        game.font.draw(game.batch,Integer.toString(g1.HIT_POINTS),360,25);
         g1.render(this.game.batch);
             //zamykam koniec malowania
         game.batch.end();
