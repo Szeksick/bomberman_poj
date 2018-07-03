@@ -17,8 +17,8 @@ public class Mob {
     public static final float SPEED_ANIMATION = 0.5f;
     public static final int PIXEL_WIDTH = 31;
     public static final int PIXEL_HEIGHT = 29;
-    public static final int WIDTH = 50;
-    public static final int HEIGHT = 50;
+    public static final int WIDTH = 40;
+    public static final int HEIGHT = 40;
     private float delta = Gdx.graphics.getDeltaTime();
     private int MOVE_TIMER = 1;
     public int state;//1 odliczanie, 2 ruch, 3 śmierć
@@ -40,8 +40,8 @@ public class Mob {
 
     
     public Mob(float x, float y){
-    this.x = 50*Math.round(x/50);;
-    this.y = 50*Math.round(y/50);;
+    this.x = x;//50*Math.round(x/50);
+    this.y = y;//50*Math.round(y/50);
     this.rect = new CollisionRect(x,y,WIDTH, HEIGHT);
     move = 1;
     moveDirection =1;

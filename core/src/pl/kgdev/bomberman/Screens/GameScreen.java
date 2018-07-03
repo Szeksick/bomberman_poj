@@ -87,11 +87,11 @@ public class GameScreen implements Screen {
                 if(Gdx.input.isKeyPressed(UP)){
                     System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
                     g1.UP_BLOCKED = true;
-                    g1.y -=3;
+                    g1.y -=1;
                 }else if(Gdx.input.isKeyPressed(DOWN)){
                     System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
                     g1.DOWN_BLOCKED = true;
-                    g1.y +=3;
+                    g1.y +=1;
                 }else if(Gdx.input.isKeyPressed(LEFT)){
                     System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
                     g1.LEFT_BLOCKED = true;
@@ -99,7 +99,7 @@ public class GameScreen implements Screen {
                 }else if(Gdx.input.isKeyPressed(RIGHT)){
                     System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
                     g1.RIGHT_BLOCKED = true;
-                    g1.x -=3;
+                    g1.x -=1;
                 }
 
             }
@@ -109,18 +109,22 @@ public class GameScreen implements Screen {
                         System.out.println("Mob koliduje x:"+mob.x+" y:"+mob.y);
                         mob.UP_BLOCKED = true;
                         mob.odwrot();
+                        mob.y-=2;
                     }else if(mob.moveDirection == 2){
                         System.out.println("Mob koliduje x:"+mob.x+" y:"+mob.y);
                         mob.DOWN_BLOCKED = true;
                         mob.odwrot();
+                        mob.y+=2;
                     }else if(mob.moveDirection == 3){
                         System.out.println("Mob koliduje x:"+mob.x+" y:"+mob.y);
                         mob.LEFT_BLOCKED = true;
                         mob.odwrot();
+                        mob.x+=2;
                     }else if(mob.moveDirection == 4){
                         System.out.println("Mob koliduje x:"+mob.x+" y:"+mob.y);
                         mob.RIGHT_BLOCKED = true;
                         mob.odwrot();
+                        mob.x-=2;
                     }
 
                 }
