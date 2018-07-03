@@ -61,32 +61,28 @@ public class Gracz{
     }
 
     public void moveRight(){
-        if(this.RIGHT_BLOCKED == false) {
-            this.x += SPEED * Gdx.graphics.getDeltaTime();
+        if(this.RIGHT_BLOCKED == false) this.x += SPEED * Gdx.graphics.getDeltaTime();
             move = 2;
             stateTime += delta / SPEED_ANIMATION;
-        }
+
     }
     public void moveLeft(){
-        if(this.LEFT_BLOCKED == false) {
-            this.x -= SPEED * Gdx.graphics.getDeltaTime();
+        if(this.LEFT_BLOCKED == false) this.x -= SPEED * Gdx.graphics.getDeltaTime();
             move = 1;
             stateTime += delta / SPEED_ANIMATION;
-        }
+
     }
     public void moveUp(){
-        if(this.UP_BLOCKED == false) {
-            this.y += SPEED * Gdx.graphics.getDeltaTime();
+        if(this.UP_BLOCKED == false) this.y += SPEED * Gdx.graphics.getDeltaTime();
             move = 3;
             stateTime += delta / SPEED_ANIMATION;
-        }
+
     }
     public void moveDown(){
-        if(this.DOWN_BLOCKED == false) {
-            this.y -= SPEED * Gdx.graphics.getDeltaTime();
+        if(this.DOWN_BLOCKED == false) this.y -= SPEED * Gdx.graphics.getDeltaTime();
             move = 0;
             stateTime += delta / SPEED_ANIMATION;
-        }
+
     }
 
     public void render(SpriteBatch batch) {

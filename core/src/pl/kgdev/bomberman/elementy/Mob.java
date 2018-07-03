@@ -23,16 +23,21 @@ public class Mob {
     private int MOVE_TIMER = 1;
     public int state;//1 odliczanie, 2 ruch, 3 śmierć
     public int HIT_POINTS;
+    public boolean RIGHT_BLOCKED = false;
+    public boolean LEFT_BLOCKED = false;
+    public boolean UP_BLOCKED = false;
+    public boolean DOWN_BLOCKED = false;
 
     Animation[] moves;//deklaracja tablicy animacji
 
     public float x;
     public float y;
     CollisionRect rect;
-    int moveDirection;
+    public int moveDirection;
     int move;
     float moveTimer;
     float stateTime;
+
     
     public Mob(float x, float y){
     this.x = 50*Math.round(x/50);;
@@ -61,27 +66,33 @@ public class Mob {
             MOVE_TIMER = 1;
         }
     }
+    public void odwrot(){
+        if(moveDirection == 1) moveDirection=2;
+        if(moveDirection == 2) moveDirection=1;
+        if(moveDirection == 3) moveDirection=4;
+        if(moveDirection == 4) moveDirection=3;
+    }
 
     private void ruch() {
         kierunek();
 
         if(moveDirection == 1){
-            this.y += SPEED * Gdx.graphics.getDeltaTime();
+            if(this.UP_BLOCKED == false) this.y += SPEED * Gdx.graphics.getDeltaTime();
             move=3;
             stateTime += delta/SPEED_ANIMATION;
         }
         if(moveDirection == 2){
-            this.y -= SPEED * Gdx.graphics.getDeltaTime();
+            if(this.DOWN_BLOCKED == false) this.y -= SPEED * Gdx.graphics.getDeltaTime();
             move=0;
             stateTime += delta/SPEED_ANIMATION;
         }
         if(moveDirection == 3){
-            this.x -= SPEED * Gdx.graphics.getDeltaTime();
+            if(this.LEFT_BLOCKED == false) this.x -= SPEED * Gdx.graphics.getDeltaTime();
             move=1;
             stateTime += delta/SPEED_ANIMATION;
         }
         if(moveDirection == 4){
-            this.x += SPEED * Gdx.graphics.getDeltaTime();
+            if(this.RIGHT_BLOCKED == false) this.x += SPEED * Gdx.graphics.getDeltaTime();
             move=2;
             stateTime += delta/SPEED_ANIMATION;
         }
@@ -91,12 +102,18 @@ public class Mob {
     }
 
     private void dead() {
+    state=3;
 
     }
 
     public void update(float delta) {
         ruch();
         rect.move(this.x, this.y);
+        RIGHT_BLOCKED = false;
+        LEFT_BLOCKED = false;
+        UP_BLOCKED = false;
+        DOWN_BLOCKED = false;
+        if(this.HIT_POINTS <=0) dead();
     }
 
     public CollisionRect getCollisionRect(){

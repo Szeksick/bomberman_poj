@@ -4,30 +4,15 @@ package pl.kgdev.bomberman.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import pl.kgdev.bomberman.Bomberman;
-import pl.kgdev.bomberman.Kolizje.CollisionRect;
 import pl.kgdev.bomberman.elementy.*;
-
 import java.util.ArrayList;
-
 import static com.badlogic.gdx.Input.Keys.*;
 
 public class GameScreen implements Screen {
 
-
-    public static final float CHICKEN_SPEED_ANIMATION = 0.5f;
-
-
-
     float x;
     float y;
-    int move;
-    float moveTimer;
-    float stateTime;
-    float bomb_timer;
 
     Gracz g1;
     Bomberman game;
@@ -64,17 +49,13 @@ public class GameScreen implements Screen {
 
     Bush[] bush = {
 
-          new Bush(150,100),     new Bush(250,100),   new Bush(250,150),    new Bush(300,150),
+            new Bush(150,100),     new Bush(250,100),   new Bush(250,150),    new Bush(300,150),
             new Bush(400,150),     new Bush(350,200),   new Bush(200,250),    new Bush(400,250),
             new Bush(150,300),     new Bush(100,350),   new Bush(300,350),    new Bush(250,400),
             new Bush(350,400),     new Bush(200,450),   new Bush(250,450),    new Bush(300,450),
             new Bush(350,450),     new Bush(400,450),   new Bush(150,500),    new Bush(350,500),
             new Bush(100,550),     new Bush(300,550),   new Bush(250,600)
     };
-
-
-
-
 
     public GameScreen(Bomberman game) {
         this.game = game;
@@ -94,7 +75,6 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         //zostawianie bomby
-        bomb_timer += delta;
                if(Gdx.input.isKeyJustPressed(SPACE)){
                    g1.dropBomb(bomby);
                 }
@@ -107,29 +87,42 @@ public class GameScreen implements Screen {
                 if(Gdx.input.isKeyPressed(UP)){
                     System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
                     g1.UP_BLOCKED = true;
-                    g1.y -=5;
-                }
-                if(Gdx.input.isKeyPressed(DOWN)){
+                    g1.y -=3;
+                }else if(Gdx.input.isKeyPressed(DOWN)){
                     System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
                     g1.DOWN_BLOCKED = true;
-                    g1.y +=5;
-                }
-                if(Gdx.input.isKeyPressed(LEFT)){
+                    g1.y +=3;
+                }else if(Gdx.input.isKeyPressed(LEFT)){
                     System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
                     g1.LEFT_BLOCKED = true;
-                    g1.x +=5;
-                }
-                if(Gdx.input.isKeyPressed(RIGHT)){
+                    g1.x +=3;
+                }else if(Gdx.input.isKeyPressed(RIGHT)){
                     System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
                     g1.RIGHT_BLOCKED = true;
-                    g1.x -=5;
+                    g1.x -=3;
                 }
 
             }
             for (Mob mob: moby){
                 if(mob.getCollisionRect().collidesWith(wall.getCollisionRect())) {
+                    if(mob.moveDirection == 1){
+                        System.out.println("Mob koliduje x:"+mob.x+" y:"+mob.y);
+                        mob.UP_BLOCKED = true;
+                        mob.odwrot();
+                    }else if(mob.moveDirection == 2){
+                        System.out.println("Mob koliduje x:"+mob.x+" y:"+mob.y);
+                        mob.DOWN_BLOCKED = true;
+                        mob.odwrot();
+                    }else if(mob.moveDirection == 3){
+                        System.out.println("Mob koliduje x:"+mob.x+" y:"+mob.y);
+                        mob.LEFT_BLOCKED = true;
+                        mob.odwrot();
+                    }else if(mob.moveDirection == 4){
+                        System.out.println("Mob koliduje x:"+mob.x+" y:"+mob.y);
+                        mob.RIGHT_BLOCKED = true;
+                        mob.odwrot();
+                    }
 
-                    System.out.println("Kolizja mob x:"+mob.x+" y:"+mob.y);
                 }
 
             }
@@ -173,10 +166,13 @@ public class GameScreen implements Screen {
             game.setScreen(new StatsScreen(game));
         }
         g1.update(delta);
+
         //rysowanie na ekranie
+
         //czyszczenie ekanu na kolor w rgba
         Gdx.gl.glClearColor(130/255f, 130/255f, 130/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         //otwieram wiadro z farba i maluje
         game.batch.begin();
         for(Bomb bomb: bomby) bomb.render(this.game.batch);

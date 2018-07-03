@@ -4,7 +4,8 @@ import com.badlogic.gdx.math.Rectangle;
 import pl.kgdev.bomberman.Bomberman;
 
 public class CollisionRect extends Rectangle{
-    int x,y, width, height, left, right, top, bottom;
+    public int x,y, width, height, left, right, top, bottom;
+
 
 
     public CollisionRect(float x, float y, int width, int height){
@@ -28,6 +29,7 @@ public class CollisionRect extends Rectangle{
     }
 
     public boolean collidesWith (CollisionRect rect) {
+
         return x < rect.x + rect.width && y < rect.y + rect.height && x + width > rect.x && y + height > rect.y;
     }
 
