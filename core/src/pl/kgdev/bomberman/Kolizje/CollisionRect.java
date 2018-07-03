@@ -8,32 +8,27 @@ public class CollisionRect extends Rectangle{
 
 
     public CollisionRect(float x, float y, int width, int height){
-        this.x = (int)x;
-        this.y = (int)y;
+        this.x = Math.round(x);
+        this.y = Math.round(y);
         this.width = width;
         this.height = height;
-        this.left = (int)x;
-        this.top = (int)y;
-        this.right = Bomberman.WIDTH-(this.x+this.width);
-        this.bottom = Bomberman.HEIGHT-(this.y+this.height);
+        this.left = Math.round(x);
+        this.bottom  = Math.round(y);
+        this.right = Bomberman.WIDTH-(this.left+this.width);
+        this.top = Bomberman.HEIGHT-(this.bottom+this.height);
     }
     public void move(float x, float y){
-        this.x = (int)x;
-        this.y = (int)y;
-        this.left = (int)x;
-        this.top = (int)y;
-        this.right = Bomberman.WIDTH-(this.x+this.width);
-        this.bottom = Bomberman.HEIGHT-(this.y+this.height);
+        this.x = Math.round(x);
+        this.y = Math.round(y);
+        this.left = Math.round(x);
+        this.bottom  = Math.round(y);
+        this.right = Bomberman.WIDTH-(this.left+this.width);
+        this.top = Bomberman.HEIGHT-(this.bottom+this.height);
 
     }
 
     public boolean collidesWith (CollisionRect rect) {
-    boolean itcolides = false;
-        if(this.left+this.width>=rect.left && this.right<=rect.right && (this.top+this.width==rect.top || this.bottom==rect.bottom)) itcolides=true;
-       /* if((x>=rect.x && x<=rect.x+rect.width)||(x+width>=rect.x && x+width<=rect.x+rect.width)){
-            if((y>=rect.y && y<=rect.y+rect.height)||(y+height>=rect.y && y+height<=rect.y+rect.height))
-                itcolides = true;
-        }*/
-        return itcolides;
+        return x < rect.x + rect.width && y < rect.y + rect.height && x + width > rect.x && y + height > rect.y;
     }
+
 }

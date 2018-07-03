@@ -9,10 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import pl.kgdev.bomberman.Bomberman;
 import pl.kgdev.bomberman.Kolizje.CollisionRect;
-import pl.kgdev.bomberman.elementy.Bomb;
-import pl.kgdev.bomberman.elementy.Bush;
-import pl.kgdev.bomberman.elementy.Mob;
-import pl.kgdev.bomberman.elementy.Wall;
+import pl.kgdev.bomberman.elementy.*;
 
 import java.util.ArrayList;
 
@@ -21,18 +18,9 @@ import static com.badlogic.gdx.Input.Keys.*;
 public class GameScreen implements Screen {
 
 
-    public static final float SPEED = 150;
     public static final float CHICKEN_SPEED_ANIMATION = 0.5f;
-    public static final int CHICKEN_PIXEL_WIDTH = 31;
-    public static final int CHICKEN_PIXEL_HEIGHT = 29;
-    public static final float CHICKEN_WIDTH = 40;
-    public static final float CHICKEN_HEIGHT = 40;
-    private static final float BOMB_WAIT_TIME = 0.9f;
-    private int HIT_POINTS = 100;
 
 
-
-    Animation[] moves;//deklaracja tablicy animacji
 
     float x;
     float y;
@@ -41,13 +29,12 @@ public class GameScreen implements Screen {
     float stateTime;
     float bomb_timer;
 
-
-    CollisionRect rect;
+    Gracz g1;
     Bomberman game;
     ArrayList<Bomb> bomby;
     ArrayList<Mob> moby;
     Wall[] walls = {
-            //dol
+         //dol
             new Wall(0,0),     new Wall(0,50),   new Wall(0,100),    new Wall(0,150),    new Wall(0,200),    new Wall(0,250),
             new Wall(0,300),   new Wall(0,350),  new Wall(0,400),    new Wall(0,450),    new Wall(0,500),    new Wall(0,550),
             new Wall(0,600),   new Wall(0,650),  new Wall(0,700),
@@ -72,12 +59,12 @@ public class GameScreen implements Screen {
             //piaty rzad
             new Wall(100,500),     new Wall(200,500),   new Wall(300,500),    new Wall(400,500),
             //szosty rzad
-            new Wall(100,600),     new Wall(200,600),   new Wall(300,600),    new Wall(400,600)
+            new Wall(100,600),     new Wall(200,600),   new Wall(300,600),   new Wall(400,600)
     };
 
     Bush[] bush = {
 
-            new Bush(150,100),     new Bush(250,100),   new Bush(250,150),    new Bush(300,150),
+          new Bush(150,100),     new Bush(250,100),   new Bush(250,150),    new Bush(300,150),
             new Bush(400,150),     new Bush(350,200),   new Bush(200,250),    new Bush(400,250),
             new Bush(150,300),     new Bush(100,350),   new Bush(300,350),    new Bush(250,400),
             new Bush(350,400),     new Bush(200,450),   new Bush(250,450),    new Bush(300,450),
@@ -95,20 +82,7 @@ public class GameScreen implements Screen {
         moby = new ArrayList<Mob>();
         y = 51;
         x = 51;
-        this.rect = new CollisionRect(x,y,10, 10);
-        move = 1;
-        moveTimer = 0;
-        bomb_timer = 0;
-        moves = new Animation[4];//definicja tablicy animacji
-        //siekam sprajta to nie fanta
-        TextureRegion[][] moveSpriteSheet = TextureRegion.split(new Texture("Wall.png"), CHICKEN_PIXEL_WIDTH, CHICKEN_PIXEL_HEIGHT);
-        //tablica animacji
-        moves[0] = new Animation(CHICKEN_SPEED_ANIMATION, moveSpriteSheet[0]);//w dol
-        moves[1] = new Animation(CHICKEN_SPEED_ANIMATION, moveSpriteSheet[1]);//w lewo
-        moves[2] = new Animation(CHICKEN_SPEED_ANIMATION, moveSpriteSheet[2]);//w prawo
-        moves[3] = new Animation(CHICKEN_SPEED_ANIMATION, moveSpriteSheet[3]);//w gore
-
-        //Sciany
+        g1 = new Gracz(this.x,this.y);
 
     }
 
@@ -121,43 +95,41 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         //zostawianie bomby
         bomb_timer += delta;
-               if(Gdx.input.isKeyJustPressed(SPACE) && bomb_timer>=BOMB_WAIT_TIME){
-                   bomb_timer = 0;
-                   bomby.add(new Bomb(this.x,this.y));
+               if(Gdx.input.isKeyJustPressed(SPACE)){
+                   g1.dropBomb(bomby);
                 }
 
         if(Gdx.input.isKeyJustPressed(C)){
             moby.add(new Mob(this.x,this.y));
         }
         for (Wall wall:walls){
-            if(wall.getCollisionRect().collidesWith(this.rect)) {
-                System.out.println("Gracz koliduje x:"+x+" y:"+y);
+            if(wall.getCollisionRect().collidesWith(g1.getCollisionRect())) {
                 if(Gdx.input.isKeyPressed(UP)){
-                    this.y -= 10;//SPEED * Gdx.graphics.getDeltaTime();
-                    move=3;
-                    stateTime += delta/CHICKEN_SPEED_ANIMATION;
+                    System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
+                    g1.UP_BLOCKED = true;
+                    g1.y -=5;
                 }
                 if(Gdx.input.isKeyPressed(DOWN)){
-                    this.y += 10;//SPEED * Gdx.graphics.getDeltaTime();
-                    move=0;
-                    stateTime += delta/CHICKEN_SPEED_ANIMATION;
+                    System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
+                    g1.DOWN_BLOCKED = true;
+                    g1.y +=5;
                 }
                 if(Gdx.input.isKeyPressed(LEFT)){
-                    this.x += 10;//SPEED * Gdx.graphics.getDeltaTime();
-                    move=1;
-                    stateTime += delta/CHICKEN_SPEED_ANIMATION;
+                    System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
+                    g1.LEFT_BLOCKED = true;
+                    g1.x +=5;
                 }
                 if(Gdx.input.isKeyPressed(RIGHT)){
-                    this.x -= 10;//SPEED * Gdx.graphics.getDeltaTime();
-                    move=2;
-                    stateTime += delta/CHICKEN_SPEED_ANIMATION;
+                    System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
+                    g1.RIGHT_BLOCKED = true;
+                    g1.x -=5;
                 }
 
             }
             for (Mob mob: moby){
                 if(mob.getCollisionRect().collidesWith(wall.getCollisionRect())) {
 
-                    System.out.println("Kolizja mob x:"+mob.getCollisionRect().getX()+" y:"+mob.getCollisionRect().getY());
+                    System.out.println("Kolizja mob x:"+mob.x+" y:"+mob.y);
                 }
 
             }
@@ -165,27 +137,18 @@ public class GameScreen implements Screen {
 
         //poruszanie sie postaci
         if(Gdx.input.isKeyPressed(UP)){
-            this.y += SPEED * Gdx.graphics.getDeltaTime();
-            move=3;
-            stateTime += delta/CHICKEN_SPEED_ANIMATION;
+           g1.moveUp();
         }else
         if(Gdx.input.isKeyPressed(DOWN)){
-            this.y -= SPEED * Gdx.graphics.getDeltaTime();
-            move=0;
-            stateTime += delta/CHICKEN_SPEED_ANIMATION;
+            g1.moveDown();
         }else
         if(Gdx.input.isKeyPressed(LEFT)){
-            this.x -= SPEED *  Gdx.graphics.getDeltaTime();
-            move=1;
-            stateTime += delta/CHICKEN_SPEED_ANIMATION;
+           g1.moveLeft();
         }else
         if(Gdx.input.isKeyPressed(RIGHT)){
-            this.x += SPEED * Gdx.graphics.getDeltaTime();
-            move=2;
-            stateTime += delta/CHICKEN_SPEED_ANIMATION;
+            g1.moveRight();
         }
         //kolizcje
-        this.rect.move(x, y);
 
 
         //update bomb i mobów
@@ -205,10 +168,11 @@ public class GameScreen implements Screen {
         }
 
         //śmierć gracza
-        if(HIT_POINTS<=0) {
+        if(g1.HIT_POINTS<=0) {
             this.dispose();
             game.setScreen(new StatsScreen(game));
         }
+        g1.update(delta);
         //rysowanie na ekranie
         //czyszczenie ekanu na kolor w rgba
         Gdx.gl.glClearColor(130/255f, 130/255f, 130/255f, 1);
@@ -219,7 +183,7 @@ public class GameScreen implements Screen {
         for(Mob mob: moby)mob.render(this.game.batch);
         for (Wall wall:walls) wall.render(this.game.batch);
         for (Bush busz:bush) busz.render(this.game.batch);
-        game.batch.draw((TextureRegion) moves[move].getKeyFrame(stateTime,true),x,y,CHICKEN_WIDTH,CHICKEN_HEIGHT);
+        g1.render(this.game.batch);
             //zamykam koniec malowania
         game.batch.end();
     }
