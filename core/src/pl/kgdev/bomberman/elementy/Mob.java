@@ -45,7 +45,7 @@ public class Mob {
     this.rect = new CollisionRect(x,y,WIDTH, HEIGHT);
     move = 1;
     state =1;
-    moveDirection =1;
+    kierunek();
     moveTimer = 0;
     moves = new Animation[4];//definicja tablicy animacji
     //siekam sprajta to nie fanta

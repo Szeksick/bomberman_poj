@@ -3,6 +3,7 @@ package pl.kgdev.bomberman.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import pl.kgdev.bomberman.Bomberman;
@@ -18,7 +19,7 @@ public class GameScreen implements Screen {
     float y;
 
     Gracz g1;
-
+    private Sound boom;
     Bomberman game;
     ArrayList<Bomb> bomby;
     ArrayList<Mob> moby;
@@ -73,6 +74,7 @@ public class GameScreen implements Screen {
         y = 450;
         x = 51;
         g1 = new Gracz(this.x,this.y);
+        boom = Gdx.audio.newSound(Gdx.files.internal("bomb.mp3"));
 
     }
 
@@ -86,6 +88,7 @@ public class GameScreen implements Screen {
         //zostawianie bomby
                if(Gdx.input.isKeyJustPressed(SPACE)){
                    g1.dropBomb(bomby);
+                   boom.play();
                 }
 // wymuszony spawn moba
         if(Gdx.input.isKeyJustPressed(C)){
@@ -94,11 +97,11 @@ public class GameScreen implements Screen {
         //poruszanie sie postaci
         if(Gdx.input.isKeyPressed(UP)){
            g1.moveUp();
-        }if(Gdx.input.isKeyPressed(DOWN)){
+        }else if(Gdx.input.isKeyPressed(DOWN)){
             g1.moveDown();
-        }if(Gdx.input.isKeyPressed(LEFT)){
+        }else if(Gdx.input.isKeyPressed(LEFT)){
            g1.moveLeft();
-        }if(Gdx.input.isKeyPressed(RIGHT)){
+        }else if(Gdx.input.isKeyPressed(RIGHT)){
             g1.moveRight();
         }
 
