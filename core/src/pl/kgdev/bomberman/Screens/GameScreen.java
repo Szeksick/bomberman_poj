@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.GL20;
 import pl.kgdev.bomberman.Bomberman;
 import pl.kgdev.bomberman.elementy.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import static com.badlogic.gdx.Input.Keys.*;
 
 public class GameScreen implements Screen {
@@ -53,7 +55,7 @@ public class GameScreen implements Screen {
             new Wall(100,600),     new Wall(200,600),   new Wall(300,600),   new Wall(400,600)
     };
 
-    Bush[] bush = {
+    ArrayList<Bush> bush = new ArrayList<Bush>(Arrays.asList(
 
             new Bush(150,100),     new Bush(250,100),   new Bush(250,150),    new Bush(300,150),
             new Bush(400,150),     new Bush(350,200),   new Bush(200,250),    new Bush(400,250),
@@ -61,14 +63,14 @@ public class GameScreen implements Screen {
             new Bush(350,400),     new Bush(200,450),   new Bush(250,450),    new Bush(300,450),
             new Bush(350,450),     new Bush(400,450),   new Bush(150,500),    new Bush(350,500),
             new Bush(100,550),     new Bush(300,550),   new Bush(250,600)
-    };
+        ));
 
     public GameScreen(Bomberman game) {
         this.game = game;
         bomby = new ArrayList<Bomb>();
         moby = new ArrayList<Mob>();
         boomholder = new ArrayList<Explozja>();
-        y = 51;
+        y = 450;
         x = 51;
         g1 = new Gracz(this.x,this.y);
 
@@ -101,36 +103,39 @@ public class GameScreen implements Screen {
         }
 
 //        Kolizje gracza ze ścianami
-        for (Wall wall:walls){
-            if(wall.getCollisionRect().collidesWith(g1.getCollisionRect())) {
-                if(g1.y<=wall.y&&Gdx.input.isKeyPressed(UP)){
-                    System.out.println("Gracz koliduje od dolu x:"+g1.x+" y:"+g1.y);
+        for (Wall wall:walls) {
+            if (wall.getCollisionRect().collidesWith(g1.getCollisionRect())) {
+                if (g1.y <= wall.y && Gdx.input.isKeyPressed(UP)) {
+                    System.out.println("Gracz koliduje od dolu x:" + g1.x + " y:" + g1.y);
                     g1.UP_BLOCKED = true;
                     g1.LEFT_BLOCKED = true;
                     g1.RIGHT_BLOCKED = true;
                     g1.moveDown();
-                }if(wall.y<=g1.y && Gdx.input.isKeyPressed(DOWN)){
-                    System.out.println("Gracz koliduje od gory x:"+g1.x+" y:"+g1.y);
+                }
+                if (wall.y <= g1.y && Gdx.input.isKeyPressed(DOWN)) {
+                    System.out.println("Gracz koliduje od gory x:" + g1.x + " y:" + g1.y);
                     g1.DOWN_BLOCKED = true;
-                    g1.LEFT_BLOCKED=true;
-                    g1.RIGHT_BLOCKED=true;
-                    g1.moveUp();
-                }if(wall.x+wall.width<=g1.x&& Gdx.input.isKeyPressed(LEFT)){
-                    System.out.println("Gracz koliduje od prawej x:"+g1.x+" y:"+g1.y);
                     g1.LEFT_BLOCKED = true;
-                    g1.UP_BLOCKED=true;
-                    g1.DOWN_BLOCKED=true;
-                    g1.moveRight();
-                }if(g1.x<=wall.x && Gdx.input.isKeyPressed(RIGHT)){
-                    System.out.println("Gracz koliduje od lewej x:"+g1.x+" y:"+g1.y);
                     g1.RIGHT_BLOCKED = true;
-                    g1.UP_BLOCKED=true;
-                    g1.DOWN_BLOCKED=true;
+                    g1.moveUp();
+                }
+                if (wall.x + wall.width <= g1.x && Gdx.input.isKeyPressed(LEFT)) {
+                    System.out.println("Gracz koliduje od prawej x:" + g1.x + " y:" + g1.y);
+                    g1.LEFT_BLOCKED = true;
+                    g1.UP_BLOCKED = true;
+                    g1.DOWN_BLOCKED = true;
+                    g1.moveRight();
+                }
+                if (g1.x <= wall.x && Gdx.input.isKeyPressed(RIGHT)) {
+                    System.out.println("Gracz koliduje od lewej x:" + g1.x + " y:" + g1.y);
+                    g1.RIGHT_BLOCKED = true;
+                    g1.UP_BLOCKED = true;
+                    g1.DOWN_BLOCKED = true;
                     g1.moveLeft();
                 }
 
             }
-//           Kolizje moba ze
+            //           Kolizje moba ze
             for (Mob mob: moby){
                 if(mob.getCollisionRect().collidesWith(wall.getCollisionRect())) {
                     if(mob.y<=wall.y&&mob.moveDirection == 1){
@@ -167,6 +172,48 @@ public class GameScreen implements Screen {
 
             }
         }
+//            Kolizje Busha
+        ArrayList<Bush> kszakidousuniecia = new ArrayList<Bush>();
+            for (Bush kszak: bush) {
+                   kszak.update();
+                for (Explozja boom: boomholder) {
+                    if (kszak.getCollisionRect().collidesWith(boom.getCollisionRect())) kszak.remove = true;
+                }
+                if(kszak.getCollisionRect().collidesWith(g1.getCollisionRect())) {
+                    if (g1.y <= kszak.y && Gdx.input.isKeyPressed(UP)) {
+                        System.out.println("Gracz koliduje od dolu x:" + g1.x + " y:" + g1.y);
+                        g1.UP_BLOCKED = true;
+                        g1.LEFT_BLOCKED = true;
+                        g1.RIGHT_BLOCKED = true;
+                        g1.moveDown();
+                    }
+                    if (kszak.y <= g1.y && Gdx.input.isKeyPressed(DOWN)) {
+                        System.out.println("Gracz koliduje od gory x:" + g1.x + " y:" + g1.y);
+                        g1.DOWN_BLOCKED = true;
+                        g1.LEFT_BLOCKED = true;
+                        g1.RIGHT_BLOCKED = true;
+                        g1.moveUp();
+                    }
+                    if (kszak.x + kszak.width <= g1.x && Gdx.input.isKeyPressed(LEFT)) {
+                        System.out.println("Gracz koliduje od prawej x:" + g1.x + " y:" + g1.y);
+                        g1.LEFT_BLOCKED = true;
+                        g1.UP_BLOCKED = true;
+                        g1.DOWN_BLOCKED = true;
+                        g1.moveRight();
+                    }
+                    if (g1.x <= kszak.x && Gdx.input.isKeyPressed(RIGHT)) {
+                        System.out.println("Gracz koliduje od lewej x:" + g1.x + " y:" + g1.y);
+                        g1.RIGHT_BLOCKED = true;
+                        g1.UP_BLOCKED = true;
+                        g1.DOWN_BLOCKED = true;
+                        g1.moveLeft();
+                    }
+                }
+                if(kszak.remove){
+                    kszakidousuniecia.add(kszak);
+                    System.out.println("Bush do usuniecia");
+                }
+            }
 
 
         //update bomb i mobów
@@ -180,11 +227,12 @@ public class GameScreen implements Screen {
         }
 //        update wybuchow
         ArrayList<Explozja> explozjezakonczone = new ArrayList<Explozja>();
-        for(Explozja jeb: boomholder){
-            jeb.update(delta);
+        for(Explozja boom: boomholder){
+            if(g1.getCollisionRect().collidesWith(boom.getCollisionRect())) g1.getHit(50);
+            boom.update(delta);
 //            jezeli bomba zmienila flage remove na true to dodaje do listy bombydousuniecia
-            if(jeb.remove) {
-                explozjezakonczone.add(jeb);
+            if(boom.remove) {
+                explozjezakonczone.add(boom);
             }
         }
 
@@ -192,23 +240,23 @@ public class GameScreen implements Screen {
         ArrayList<Mob> mobydousuniecia = new ArrayList<Mob>();
         for (Mob mob: moby) {
             for (Explozja boom: boomholder) {
-                if(mob.getCollisionRect().collidesWith(boom.))
-
+                if(mob.getCollisionRect().collidesWith(boom.getCollisionRect())) mob.state=3;
             }
             if(mob.getCollisionRect().collidesWith(g1.getCollisionRect())){
                 g1.getHit(20);
             }
             mob.update(delta);
 //            Jezeli mob ma state oznaczajacy smierc albo jest poza mapa to kilim
-            if(mob.state == 3|| mob.x>0 || mob.y>0||mob.x>Bomberman.WIDTH || mob.y>Bomberman.HEIGHT) {
+            if(mob.state == 3|| mob.x<0 || mob.y<0||mob.x>Bomberman.WIDTH || mob.y>Bomberman.HEIGHT) {
                 mobydousuniecia.add(mob);
-                System.out.println("Mob koliduje x:"+mob.x+" y:"+mob.y);
+                System.out.println("Mob do usuniecia");
             }
         }
 //        usuwanie obiektow nalezacych do listy do usuniecia
-        explozjezakonczone.clear();
-        bombydousunieca.clear();
-        mobydousuniecia.clear();
+        boomholder.removeAll(explozjezakonczone);
+        bomby.removeAll(bombydousunieca);
+        moby.removeAll(mobydousuniecia);
+        bush.removeAll(kszakidousuniecia);
         //śmierć gracza
         if(g1.HIT_POINTS<=0) {
            // this.dispose();
@@ -228,9 +276,9 @@ public class GameScreen implements Screen {
         game.batch.begin();
         for(Bomb bomb: bomby) bomb.render(this.game.batch);
         for(Mob mob: moby)mob.render(this.game.batch);
-        for (Wall wall:walls) wall.render(this.game.batch);
         for (Bush busz:bush) busz.render(this.game.batch);
         for (Explozja jeb: boomholder) jeb.render(this.game.batch);
+        for (Wall wall:walls) wall.render(this.game.batch);
         game.font.setColor(Color.GREEN);
         game.font.draw(game.batch,"ZYCIE : ",300,25);
         game.font.setColor(Color.RED);

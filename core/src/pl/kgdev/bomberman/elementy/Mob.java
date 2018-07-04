@@ -22,7 +22,7 @@ public class Mob {
     private float delta = Gdx.graphics.getDeltaTime();
     private int MOVE_TIMER = 1;
     public int state;//1 odliczanie, 2 ruch, 3 śmierć
-    public int HIT_POINTS;
+    public int HIT_POINTS = 100;
     public boolean RIGHT_BLOCKED = false;
     public boolean LEFT_BLOCKED = false;
     public boolean UP_BLOCKED = false;
@@ -44,6 +44,7 @@ public class Mob {
     this.y = y;//50*Math.round(y/50);
     this.rect = new CollisionRect(x,y,WIDTH, HEIGHT);
     move = 1;
+    state =1;
     moveDirection =1;
     moveTimer = 0;
     moves = new Animation[4];//definicja tablicy animacji

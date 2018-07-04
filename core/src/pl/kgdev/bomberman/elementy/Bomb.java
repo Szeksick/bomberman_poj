@@ -16,7 +16,7 @@ public class Bomb {
     private static int WIDTH = 50;
     private static int HEIGHT = 50;
     public static final float SPEED_ANIMATION = 0.5f;
-    public static final float JEB_WAIT_TIMER = 0.5f;
+    public static final float JEB_WAIT_TIMER = 1.8f;
 //    czytamy dżeb_łajt_tajmer ;-)
     Animation[] ticks;
 
@@ -45,9 +45,10 @@ public class Bomb {
 
     public void update(float delta, ArrayList<Explozja> boomholder) {
             if(jeb_timer >= JEB_WAIT_TIMER){
-                boomholder.add(new Explozja(x-this.WIDTH/2,y-this.HEIGHT/2));
+                boomholder.add(new Explozja(x+this.WIDTH/2,y+this.HEIGHT/2));
                 this.state = 3;
                 this.remove = true;
+                System.out.println("bomba dousuniecia");
             }
         jeb_timer += delta;
         stateTime += delta / SPEED_ANIMATION;

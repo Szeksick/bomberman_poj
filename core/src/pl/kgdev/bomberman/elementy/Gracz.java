@@ -21,7 +21,7 @@ public class Gracz{
     private float delta = Gdx.graphics.getDeltaTime();
     private int MOVE_TIMER = 1;
     private static final float BOMB_WAIT_TIME = 0.9f, HIT_WAIT_TIME = 1.9f;
-    public int HIT_POINTS = 100;
+    public int HIT_POINTS = 3;
 
     Animation[] moves;//deklaracja tablicy animacji
 
@@ -107,8 +107,10 @@ public class Gracz{
 
     public void getHit(int moc) {
         if(hit_timer>=HIT_WAIT_TIME){
-            this.HIT_POINTS -= moc;
+            this.HIT_POINTS--;
             hit_timer=0;
+            this.x = 50;
+            this.y = 450;
         }
     }
 }
