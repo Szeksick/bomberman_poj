@@ -85,47 +85,63 @@ public class GameScreen implements Screen {
         }
         for (Wall wall:walls){
             if(wall.getCollisionRect().collidesWith(g1.getCollisionRect())) {
-                if(Gdx.input.isKeyPressed(UP)){
-                    System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
+                if(g1.y<=wall.y&&Gdx.input.isKeyPressed(UP)){
+                    System.out.println("Gracz koliduje od dolu x:"+g1.x+" y:"+g1.y);
                     g1.UP_BLOCKED = true;
-                    g1.y -=1;
-                }else if(Gdx.input.isKeyPressed(DOWN)){
-                    System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
+                    g1.LEFT_BLOCKED=true;
+                    g1.RIGHT_BLOCKED=true;
+                      g1.moveDown();
+                }if(wall.y<=g1.y && Gdx.input.isKeyPressed(DOWN)){
+                    System.out.println("Gracz koliduje od gory x:"+g1.x+" y:"+g1.y);
                     g1.DOWN_BLOCKED = true;
-                    g1.y +=1;
-                }else if(Gdx.input.isKeyPressed(LEFT)){
-                    System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
+                    g1.LEFT_BLOCKED=true;
+                    g1.RIGHT_BLOCKED=true;
+                    g1.moveUp();
+                }if(wall.x+wall.width<=g1.x&& Gdx.input.isKeyPressed(LEFT)){
+                    System.out.println("Gracz koliduje od prawej x:"+g1.x+" y:"+g1.y);
                     g1.LEFT_BLOCKED = true;
-                    g1.x +=3;
-                }else if(Gdx.input.isKeyPressed(RIGHT)){
-                    System.out.println("Gracz koliduje x:"+g1.x+" y:"+g1.y);
+                    g1.UP_BLOCKED=true;
+                    g1.DOWN_BLOCKED=true;
+                     g1.moveRight();
+                }if(g1.x<=wall.x && Gdx.input.isKeyPressed(RIGHT)){
+                    System.out.println("Gracz koliduje od lewej x:"+g1.x+" y:"+g1.y);
                     g1.RIGHT_BLOCKED = true;
-                    g1.x -=1;
+                    g1.UP_BLOCKED=true;
+                    g1.DOWN_BLOCKED=true;
+                    g1.moveLeft();
                 }
 
             }
             for (Mob mob: moby){
                 if(mob.getCollisionRect().collidesWith(wall.getCollisionRect())) {
-                    if(mob.moveDirection == 1){
+                    if(mob.y<=wall.y&&mob.moveDirection == 1){
                         System.out.println("Mob koliduje x:"+mob.x+" y:"+mob.y);
                         mob.UP_BLOCKED = true;
+                        mob.LEFT_BLOCKED=true;
+                        mob.RIGHT_BLOCKED=true;
                         mob.odwrot();
-                        mob.y-=2;
-                    }else if(mob.moveDirection == 2){
+                        mob.moveDown();
+                    }if(wall.y<=mob.y && mob.moveDirection == 2){
                         System.out.println("Mob koliduje x:"+mob.x+" y:"+mob.y);
                         mob.DOWN_BLOCKED = true;
+                        mob.LEFT_BLOCKED=true;
+                        mob.RIGHT_BLOCKED=true;
                         mob.odwrot();
-                        mob.y+=2;
-                    }else if(mob.moveDirection == 3){
+                        mob.moveUp();
+                    }if(wall.x+wall.width<=mob.x && mob.moveDirection == 3){
                         System.out.println("Mob koliduje x:"+mob.x+" y:"+mob.y);
                         mob.LEFT_BLOCKED = true;
+                        mob.UP_BLOCKED=true;
+                        mob.DOWN_BLOCKED=true;
                         mob.odwrot();
-                        mob.x+=2;
-                    }else if(mob.moveDirection == 4){
+                        mob.moveRight();
+                    }if(mob.x<=wall.x && mob.moveDirection == 4){
                         System.out.println("Mob koliduje x:"+mob.x+" y:"+mob.y);
                         mob.RIGHT_BLOCKED = true;
+                        mob.UP_BLOCKED=true;
+                        mob.DOWN_BLOCKED=true;
                         mob.odwrot();
-                        mob.x-=2;
+                        mob.moveLeft();
                     }
 
                 }
@@ -136,14 +152,11 @@ public class GameScreen implements Screen {
         //poruszanie sie postaci
         if(Gdx.input.isKeyPressed(UP)){
            g1.moveUp();
-        }else
-        if(Gdx.input.isKeyPressed(DOWN)){
+        }if(Gdx.input.isKeyPressed(DOWN)){
             g1.moveDown();
-        }else
-        if(Gdx.input.isKeyPressed(LEFT)){
+        }if(Gdx.input.isKeyPressed(LEFT)){
            g1.moveLeft();
-        }else
-        if(Gdx.input.isKeyPressed(RIGHT)){
+        }if(Gdx.input.isKeyPressed(RIGHT)){
             g1.moveRight();
         }
         //kolizcje
@@ -225,6 +238,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+
 
     }
 }

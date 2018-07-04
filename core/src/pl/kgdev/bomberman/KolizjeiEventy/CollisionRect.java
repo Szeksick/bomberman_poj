@@ -1,30 +1,24 @@
 package pl.kgdev.bomberman.KolizjeiEventy;
 
 import com.badlogic.gdx.math.Rectangle;
-import pl.kgdev.bomberman.Bomberman;
 
 public class CollisionRect extends Rectangle{
-    public int x,y, width, height, left, right, top, bottom;
+    public float x,y;
+    public int width, height;
 
 
 
     public CollisionRect(float x, float y, int width, int height){
-        this.x = Math.round(x);
-        this.y = Math.round(y);
-        this.width = width;
-        this.height = height;
-        this.left = Math.round(x);
-        this.bottom  = Math.round(y);
-        this.right = Bomberman.WIDTH-(this.left+this.width);
-        this.top = Bomberman.HEIGHT-(this.bottom+this.height);
+        this.x = x+2;
+        this.y = y+2;
+        this.width = width-5;
+        this.height = height-5;
+
     }
     public void move(float x, float y){
-        this.x = Math.round(x);
-        this.y = Math.round(y);
-        this.left = Math.round(x);
-        this.bottom  = Math.round(y);
-        this.right = Bomberman.WIDTH-(this.left+this.width);
-        this.top = Bomberman.HEIGHT-(this.bottom+this.height);
+        this.x = x;
+        this.y = y;
+
 
     }
 

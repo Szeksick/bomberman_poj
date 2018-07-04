@@ -72,30 +72,33 @@ public class Mob {
         if(moveDirection == 3) moveDirection=4;
         if(moveDirection == 4) moveDirection=3;
     }
+    public void moveRight(){
+        if(this.RIGHT_BLOCKED == false) this.x += SPEED * Gdx.graphics.getDeltaTime();
+        move = 2;
+        stateTime += delta / SPEED_ANIMATION;
+    }
+    public void moveLeft(){
+        if(this.LEFT_BLOCKED == false) this.x -= SPEED * Gdx.graphics.getDeltaTime();
+        move = 1;
+        stateTime += delta / SPEED_ANIMATION;
+    }
+    public void moveUp(){
+        if(this.UP_BLOCKED == false) this.y += SPEED * Gdx.graphics.getDeltaTime();
+        move = 3;
+        stateTime += delta / SPEED_ANIMATION;
+    }
+    public void moveDown(){
+        if(this.DOWN_BLOCKED == false) this.y -= SPEED * Gdx.graphics.getDeltaTime();
+        move = 0;
+        stateTime += delta / SPEED_ANIMATION;
+    }
 
     private void ruch() {
         kierunek();
-
-        if(moveDirection == 1){
-            if(this.UP_BLOCKED == false) this.y += SPEED * Gdx.graphics.getDeltaTime();
-            move=3;
-            stateTime += delta/SPEED_ANIMATION;
-        }
-        if(moveDirection == 2){
-            if(this.DOWN_BLOCKED == false) this.y -= SPEED * Gdx.graphics.getDeltaTime();
-            move=0;
-            stateTime += delta/SPEED_ANIMATION;
-        }
-        if(moveDirection == 3){
-            if(this.LEFT_BLOCKED == false) this.x -= SPEED * Gdx.graphics.getDeltaTime();
-            move=1;
-            stateTime += delta/SPEED_ANIMATION;
-        }
-        if(moveDirection == 4){
-            if(this.RIGHT_BLOCKED == false) this.x += SPEED * Gdx.graphics.getDeltaTime();
-            move=2;
-            stateTime += delta/SPEED_ANIMATION;
-        }
+        if(moveDirection == 1) this.moveUp();
+        if(moveDirection == 2) this.moveDown();
+        if(moveDirection == 3) this.moveLeft();
+        if(moveDirection == 4) this.moveRight();
     }
     public void render(SpriteBatch batch) {
         batch.draw((TextureRegion) moves[move].getKeyFrame(stateTime,true),x,y,WIDTH,HEIGHT);
