@@ -94,7 +94,7 @@ public class Gracz{
     public void update(float delta) {
         bomb_timer += delta;
         hit_timer += delta;
-        rect.move(this.x, this.y);
+        this.rect.move(this.x, this.y);
         RIGHT_BLOCKED = false;
         LEFT_BLOCKED = false;
         UP_BLOCKED = false;

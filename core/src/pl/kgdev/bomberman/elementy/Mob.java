@@ -105,8 +105,7 @@ public class Mob {
     }
 
     private void dead() {
-    state=3;
-
+    this.state=3;
     }
 
     public void update(float delta) {
