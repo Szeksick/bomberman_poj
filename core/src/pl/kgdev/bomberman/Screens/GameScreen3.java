@@ -263,6 +263,7 @@ Wall[] walls = {
                 }
             }
             if (kszak.remove) {
+                game.GLOBAL_POINTS+=1;
                 kszakidousuniecia.add(kszak);
                 System.out.println("Bush do usuniecia");
             }
@@ -307,8 +308,9 @@ Wall[] walls = {
             for (Explozja boom: boomholder) {
                 if(mob.getCollisionRect().collidesWith(boom.getCollisionRect())){
                     chance = new Random().nextInt(6) + 10;
-                    if(chance == 10) potiony.add(new Potion(mob.x+20,mob.y+20,new Random().nextInt(2)+1));
+                    if(chance == 10) potiony.add(new Potion(mob.y+20,mob.x+20,new Random().nextInt(2)+1));
                     mob.state=3;
+                    game.GLOBAL_POINTS+=100;
                 }
             }
             if(mob.getCollisionRect().collidesWith(g1.getCollisionRect())){
@@ -333,7 +335,7 @@ Wall[] walls = {
            game.setScreen(new GameOver(game));
         }else if(moby.isEmpty()){
             this.dispose();
-            game.setScreen(new GameOver(game));
+            game.setScreen(new WinScreen(game));
         }
         g1.update(delta);
 
@@ -353,6 +355,7 @@ Wall[] walls = {
         for (Wall wall:walls) wall.render(this.game.batch);
         for (Potion pot:potiony)pot.render(this.game.batch);
         game.font.setColor(Color.GREEN);
+        game.font.draw(game.batch,"Punkty : "+game.GLOBAL_POINTS,150,25);
         game.font.draw(game.batch,"ZYCIE : ",300,25);
         game.font.setColor(Color.RED);
         game.font.draw(game.batch,Integer.toString(g1.HIT_POINTS),360,25);

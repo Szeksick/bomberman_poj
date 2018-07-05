@@ -96,9 +96,13 @@ public class GameScreen implements Screen {
             boom.play();
         }
 
-// wymuszony spawn moba
+// Cheaty
         if (Gdx.input.isKeyJustPressed(H)) {
             moby.add(new Mob(this.x, this.y));
+        }
+        if (Gdx.input.isKeyJustPressed(L)) {
+            this.dispose();
+            game.setScreen(new WinScreen(game));
         }
         //poruszanie sie postaci
         if (Gdx.input.isKeyPressed(UP)) {
@@ -189,7 +193,9 @@ public class GameScreen implements Screen {
         for (Bush kszak : bush) {
             kszak.update();
             for (Explozja boom : boomholder) {
-                if (kszak.getCollisionRect().collidesWith(boom.getCollisionRect())) kszak.remove = true;
+                if (kszak.getCollisionRect().collidesWith(boom.getCollisionRect())){ kszak.remove = true;
+                game.GLOBAL_POINTS+=1;
+                }
             }
             //           Kolizje moba z Bushem
             for (Mob mob : moby) {
@@ -303,8 +309,9 @@ public class GameScreen implements Screen {
             for (Explozja boom: boomholder) {
                 if(mob.getCollisionRect().collidesWith(boom.getCollisionRect())){
                     chance = new Random().nextInt(4)+10;
-                    if(chance == 10) potiony.add(new Potion(mob.x+20,mob.y+20,new Random().nextInt(2)+1));
+                    if(chance == 10) potiony.add(new Potion(mob.y+20,mob.x+20,new Random().nextInt(2)+1));
                     mob.state=3;
+
                 }
             }
             if(mob.getCollisionRect().collidesWith(g1.getCollisionRect())){
@@ -314,6 +321,7 @@ public class GameScreen implements Screen {
 //            Jezeli mob ma state oznaczajacy smierc albo jest poza mapa to kilim
             if(mob.state == 3|| mob.x<0 || mob.y<0||mob.x>Bomberman.WIDTH || mob.y>Bomberman.HEIGHT) {
                 mobydousuniecia.add(mob);
+                game.GLOBAL_POINTS+=100;
                 System.out.println("Mob do usuniecia");
             }
         }
@@ -349,6 +357,7 @@ public class GameScreen implements Screen {
         for (Wall wall:walls) wall.render(this.game.batch);
         for (Potion pot:potiony)pot.render(this.game.batch);
         game.font.setColor(Color.GREEN);
+        game.font.draw(game.batch,"Punkty : "+game.GLOBAL_POINTS,150,25);
         game.font.draw(game.batch,"ZYCIE : ",300,25);
         game.font.setColor(Color.RED);
         game.font.draw(game.batch,Integer.toString(g1.HIT_POINTS),360,25);

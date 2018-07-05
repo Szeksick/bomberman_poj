@@ -15,11 +15,13 @@ public class Bomberman extends Game {
 	private Music muzyka;
 	public static final int WIDTH = 750;
 	public static final int HEIGHT = 550;
+	public int GLOBAL_POINTS;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
+		GLOBAL_POINTS = 0;
 		muzyka = Gdx.audio.newMusic(Gdx.files.internal("theme.mp3"));
 		muzyka.setLooping(true);
 		muzyka.setVolume(0.6f);
