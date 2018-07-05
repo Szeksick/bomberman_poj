@@ -2,39 +2,36 @@ package pl.kgdev.bomberman.elementy;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import pl.kgdev.bomberman.KolizjeiEventy.CollisionRect;
 
-public class Bush{
+public class Potion {
     private static Texture texture;
     public float x,y;
-    public int width, height;
-    public static final int WALL_WIDTH = 50;
-    public static final int WALL_HEIGHT = 50;
+    public int width, height, type;
+    public static final int POTION_WIDTH = 20;
+    public static final int POTION_HEIGHT = 20;
     CollisionRect rect;
 
 
-    public boolean breakable = false;
+
     public boolean remove = false;
 
 
-    public Bush(float y, float x){
+    public Potion(float y, float x,int type){
         this.x = x;
         this.y = y;
-        this.rect = new CollisionRect(this.x,this.y,WALL_WIDTH, WALL_HEIGHT);
-        if(texture == null){
-            texture = new Texture("bush.png");
-        }
-
+        this.type=type;
+        this.rect = new CollisionRect(this.x,this.y,POTION_WIDTH, POTION_HEIGHT);
+        if(type == 1){
+            texture = new Texture("health.png");
+        }else if(type != 1){
+            texture = new Texture("potion.png");}
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(texture, this.x, this.y, WALL_WIDTH, WALL_HEIGHT);
+        batch.draw(texture, this.x, this.y, POTION_WIDTH, POTION_HEIGHT);
     }
 
-    private void explode() {
-
-    }
 
     public void update(float delta) {
     }
@@ -45,3 +42,4 @@ public class Bush{
     public void update() {
     }
 }
+

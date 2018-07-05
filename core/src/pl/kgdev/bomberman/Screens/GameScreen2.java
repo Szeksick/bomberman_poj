@@ -8,13 +8,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import pl.kgdev.bomberman.Bomberman;
 import pl.kgdev.bomberman.elementy.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
-public class GameScreen implements Screen {
+public class GameScreen2 implements Screen {
 
     float x;
     float y;
@@ -31,45 +32,45 @@ public class GameScreen implements Screen {
 
 //    Ustawienie ścian
     Wall[] walls = {
-         //dol
-            new Wall(0,0),     new Wall(0,50),   new Wall(0,100),    new Wall(0,150),    new Wall(0,200),    new Wall(0,250),
-            new Wall(0,300),   new Wall(0,350),  new Wall(0,400),    new Wall(0,450),    new Wall(0,500),    new Wall(0,550),
-            new Wall(0,600),   new Wall(0,650),  new Wall(0,700),
-            //gora
-            new Wall(500,0),   new Wall(500,50),  new Wall(500,100), new Wall(500,150),  new Wall(500,200),  new Wall(500,250),
-            new Wall(500,300), new Wall(500,350), new Wall(500,400), new Wall(500,450),  new Wall(500,500),  new Wall(500,550),
-            new Wall(500,600), new Wall(500,650), new Wall(500,700),
-            //prawa
-            new Wall(50,700),  new Wall(100,700), new Wall(150,700), new Wall(200,700),  new Wall(250,700),   new Wall(300,700),
-            new Wall(350,700), new Wall(400,700), new Wall(450,700),
-            //lewa
-            new Wall(50,0),  new Wall(100,0), new Wall(150,0), new Wall(200,0),  new Wall(250,0),   new Wall(300,0),
-            new Wall(350,0), new Wall(400,0), new Wall(450,0),
-            //pierwszy rzad
-            new Wall(100,100),     new Wall(200,100),   new Wall(300,100),    new Wall(400,100),
-            //drugi rzad
-            new Wall(100,200),     new Wall(200,200),   new Wall(300,200),    new Wall(400,200),
-            //trzeci rzad
-            new Wall(100,300),     new Wall(200,300),   new Wall(300,300),    new Wall(400,300),
-            //czwarty rzad
-            new Wall(100,400),     new Wall(200,400),   new Wall(300,400),    new Wall(400,400),
-            //piaty rzad
-            new Wall(100,500),     new Wall(200,500),   new Wall(300,500),    new Wall(400,500),
-            //szosty rzad
-            new Wall(100,600),     new Wall(200,600),   new Wall(300,600),   new Wall(400,600)
+        //dol
+        new Wall(0,0,2),     new Wall(0,50,2),   new Wall(0,100,2),    new Wall(0,150,2),    new Wall(0,200,2),    new Wall(0,250,2),
+        new Wall(0,300,2),   new Wall(0,350,2),  new Wall(0,400,2),    new Wall(0,450,2),    new Wall(0,500,2),    new Wall(0,550,2),
+        new Wall(0,600,2),   new Wall(0,650,2),  new Wall(0,700,2),
+        //gora
+        new Wall(500,0,2),   new Wall(500,50,2),  new Wall(500,100,2), new Wall(500,150,2),  new Wall(500,200,2),  new Wall(500,250,2),
+        new Wall(500,300,2), new Wall(500,350,2), new Wall(500,400,2), new Wall(500,450,2),  new Wall(500,500,2),  new Wall(500,550,2),
+        new Wall(500,600,2), new Wall(500,650,2), new Wall(500,700,2),
+        //prawa
+        new Wall(50,700,2),  new Wall(100,700,2), new Wall(150,700,2), new Wall(200,700,2),  new Wall(250,700,2),   new Wall(300,700,2),
+        new Wall(350,700,2), new Wall(400,700,2), new Wall(450,700,2),
+        //lewa
+        new Wall(50,0,2),  new Wall(100,0,2), new Wall(150,0,2), new Wall(200,0,2),  new Wall(250,0,2),   new Wall(300,0,2),
+        new Wall(350,0,2), new Wall(400,0,2), new Wall(450,0,2),
+        //pierwszy rzad
+        new Wall(100,100,2),     new Wall(200,100,2),   new Wall(300,100,2),    new Wall(400,100,2),
+        //drugi rzad
+        new Wall(100,200,2),     new Wall(200,150,2),  new Wall(200,250,2),  new Wall(300,200,2),    new Wall(400,150,2), new Wall(400,250,2),
+        //trzeci rzad
+        new Wall(100,300,2),     new Wall(200,300,2),   new Wall(300,300,2),    new Wall(400,300,2),
+        //czwarty rzad
+        new Wall(100,400,2),     new Wall(200,400,2),   new Wall(300,400,2),    new Wall(400,400,2),
+        //piaty rzad
+        new Wall(100,500,2),     new Wall(200,450,2),   new Wall(200,550,2), new Wall(300,500,2),    new Wall(400,450,2), new Wall(400,550,2),
+        //szosty rzad
+        new Wall(100,600,2),     new Wall(200,600,2),   new Wall(300,600,2),   new Wall(400,600,2)
     };
 
     ArrayList<Bush> bush = new ArrayList<Bush>(Arrays.asList(
 
-            new Bush(150,100),     new Bush(250,100),   new Bush(250,150),    new Bush(300,150),
-            new Bush(400,150),     new Bush(350,200),   new Bush(200,250),    new Bush(400,250),
-            new Bush(150,300),     new Bush(100,350),   new Bush(300,350),    new Bush(250,400),
-            new Bush(350,400),     new Bush(200,450),   new Bush(250,450),    new Bush(300,450),
-            new Bush(350,450),     new Bush(400,450),   new Bush(150,500),    new Bush(350,500),
-            new Bush(100,550),     new Bush(300,550),   new Bush(250,600)
+            new Bush(100,150),     new Bush(100,250),   new Bush(100,550),    new Bush(150,200),
+            new Bush(150,300),     new Bush(150,350),   new Bush(150,400),    new Bush(150,500),
+            new Bush(200,200),     new Bush(200,500),   new Bush(250,100),    new Bush(250,300),
+            new Bush(250,500),     new Bush(250,600),   new Bush(300,350),    new Bush(300,450),
+            new Bush(350,150),     new Bush(350,200),   new Bush(350,400),    new Bush(350,450),
+            new Bush(350,500),     new Bush(350,600),   new Bush(400,200)
         ));
 
-    public GameScreen(Bomberman game) {
+    public GameScreen2(Bomberman game) {
         this.game = game;
         bomby = new ArrayList<Bomb>();
         moby = new ArrayList<Mob>();
@@ -80,7 +81,7 @@ public class GameScreen implements Screen {
         g1 = new Gracz(this.x,this.y);
         boom = Gdx.audio.newSound(Gdx.files.internal("bomb.mp3"));
 //        spawn mobow
-        for(int i=0;i<=10;i++) moby.add(new Mob(600-(i*20), 50));
+        for(int i=0;i<=15;i++) moby.add(new Mob(600-(i*20), 50));
     }
 
     @Override
@@ -267,7 +268,14 @@ public class GameScreen implements Screen {
             }
         }
 
-
+//        zbieranie potiona
+        ArrayList<Potion> potzjedzone = new ArrayList<Potion>();
+        for (Potion pot:potiony){
+            if(g1.getCollisionRect().collidesWith(pot.getCollisionRect())){
+                if(pot.type == 1){g1.HIT_POINTS++;}else if(pot.type != 1){g1.speedup();}
+                potzjedzone.add(pot);
+            }
+        }
 
         //update bomb i mobów
         ArrayList<Bomb> bombydousunieca = new ArrayList<Bomb>();
@@ -288,23 +296,15 @@ public class GameScreen implements Screen {
                 explozjezakonczone.add(boom);
             }
         }
-//        zbieranie potiona
-        ArrayList<Potion> potzjedzone = new ArrayList<Potion>();
-        for (Potion pot:potiony){
-            if(g1.getCollisionRect().collidesWith(pot.getCollisionRect())){
-                if(pot.type == 1){g1.HIT_POINTS++;}else if(pot.type != 1){g1.speedup();}
-                potzjedzone.add(pot);
-            }
-        }
 
 //        tak samo jest z mobami
         ArrayList<Mob> mobydousuniecia = new ArrayList<Mob>();
         for (Mob mob: moby) {
             for (Explozja boom: boomholder) {
-                if(mob.getCollisionRect().collidesWith(boom.getCollisionRect())){
-                    chance = new Random().nextInt(4)+10;
+                if(mob.getCollisionRect().collidesWith(boom.getCollisionRect())) {
+                    chance = new Random().nextInt(5)+10;
                     if(chance == 10) potiony.add(new Potion(mob.x+20,mob.y+20,new Random().nextInt(2)+1));
-                    mob.state=3;
+                    mob.state = 3;
                 }
             }
             if(mob.getCollisionRect().collidesWith(g1.getCollisionRect())){
@@ -329,7 +329,7 @@ public class GameScreen implements Screen {
            game.setScreen(new GameOver(game));
         }else if(moby.isEmpty()){
             this.dispose();
-            game.setScreen(new GameScreen2(game));
+            game.setScreen(new GameScreen3(game));
         }
         g1.update(delta);
 
@@ -337,7 +337,7 @@ public class GameScreen implements Screen {
         //================rysowanie na ekranie====================================
 
         //czyszczenie ekanu na kolor w rgba
-        Gdx.gl.glClearColor(130/255f, 130/255f, 130/255f, 1);
+        Gdx.gl.glClearColor(173/255f, 138/255f, 84/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //otwieram wiadro z farba i maluje
@@ -352,7 +352,7 @@ public class GameScreen implements Screen {
         game.font.draw(game.batch,"ZYCIE : ",300,25);
         game.font.setColor(Color.RED);
         game.font.draw(game.batch,Integer.toString(g1.HIT_POINTS),360,25);
-        game.font.draw(game.batch,"POZIOM 1",360,535);
+        game.font.draw(game.batch,"POZIOM 2",360,535);
         g1.render(this.game.batch);
             //zamykam koniec malowania
         game.batch.end();

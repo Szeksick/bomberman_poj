@@ -29,7 +29,7 @@ public class Explozja{
         this.rect = new CollisionRect(this.x,this.y,WIDTH, HEIGHT);
         jeb_timer = 0;
         ticks = new Animation[1];
-        TextureRegion[][] moveSpriteSheet = TextureRegion.split(new Texture("tnt.jpg"), 50, 50);
+        TextureRegion[][] moveSpriteSheet = TextureRegion.split(new Texture("boom.png"), 78, 78);
         ticks[0] = new Animation(SPEED_ANIMATION, moveSpriteSheet[0]);
 
     }
