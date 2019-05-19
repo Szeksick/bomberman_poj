@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		config.width = Bomberman.WIDTH;
 		config.height = Bomberman.HEIGHT;
 		config.resizable = false;
-		config.title = "BOMBERMAN by Konrad Gugała, Karol Mikołajczyk, Paweł Langier, Tucznik";
+		config.title = "BOMBERMAN by Konrad Gugała, Karol Mikołajczyk, Paweł Langier, Dawid Kowalski";
 		new LwjglApplication(new Bomberman(), config);
 	}
 }

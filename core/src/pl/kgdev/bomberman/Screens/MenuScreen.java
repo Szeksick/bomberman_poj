@@ -36,6 +36,7 @@ Texture exitButtonInactive;
         statsButtonInactive = new Texture("statI.png");
         exitButtonActive = new Texture("exitA.png");
         exitButtonInactive = new Texture("exitI.png");
+        game.GLOBAL_POINTS=0;
     }
 
     @Override
@@ -46,9 +47,14 @@ Texture exitButtonInactive;
     @Override
     public void render(float delta) {
         // ZACZYNAMY ZABAWEEEEEEE
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(173/255f, 138/255f, 84/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
+
+        //rysowanie buttonow
+        game.batch.draw(exitButtonInactive, (Bomberman.WIDTH/2-BUTTON_WIDTH/2), EXITBUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
+        game.batch.draw(statsButtonInactive, (Bomberman.WIDTH/2-BUTTON_WIDTH/2), STATBUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
+        game.batch.draw(playButtonInacitve, (Bomberman.WIDTH/2-BUTTON_WIDTH/2), PLAYBUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
 
         //wykrywanie klikniec w menu
         if(Gdx.input.getX() > (Bomberman.WIDTH/2-BUTTON_WIDTH/2) && Gdx.input.getX() < (Bomberman.WIDTH/2+BUTTON_WIDTH/2)){
@@ -72,10 +78,7 @@ Texture exitButtonInactive;
             }
         }
 
-        //rysowanie buttonow
-        game.batch.draw(exitButtonInactive, (Bomberman.WIDTH/2-BUTTON_WIDTH/2), EXITBUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
-        game.batch.draw(statsButtonInactive, (Bomberman.WIDTH/2-BUTTON_WIDTH/2), STATBUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
-        game.batch.draw(playButtonInacitve, (Bomberman.WIDTH/2-BUTTON_WIDTH/2), PLAYBUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
+
         game.batch.end();
     }
 

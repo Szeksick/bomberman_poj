@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import pl.kgdev.bomberman.Bomberman;
 import pl.kgdev.bomberman.KolizjeiEventy.CollisionRect;
 
 import java.util.ArrayList;
@@ -14,14 +15,13 @@ public class Gracz{
 
     public static float SPEED = 150;
     public static final float SPEED_ANIMATION = 0.5f;
-    public static final int PIXEL_WIDTH = 31;
-    public static final int PIXEL_HEIGHT = 29;
+    public static final int PIXEL_WIDTH = 64;
+    public static final int PIXEL_HEIGHT = 64;
     public static final int WIDTH = 40;
     public static final int HEIGHT = 40;
     private float delta = Gdx.graphics.getDeltaTime();
-    private int MOVE_TIMER = 1;
-    private static final float BOMB_WAIT_TIME = 0.9f, HIT_WAIT_TIME = 1.9f;
-    public int HIT_POINTS = 100;
+    private static final float BOMB_WAIT_TIME = 0.9f, HIT_WAIT_TIME = 1.9f, SPEEDUP_WAIT_TIME = 1.9f;
+    public int HIT_POINTS = 3;
 
     Animation[] moves;//deklaracja tablicy animacji
 
@@ -33,7 +33,7 @@ public class Gracz{
     public boolean DOWN_BLOCKED = false;
     CollisionRect rect;
     int move;
-    float moveTimer,bomb_timer,stateTime, hit_timer;
+    float moveTimer,bomb_timer,stateTime, hit_timer,speedup_timer;
 
 
     public Gracz(float x, float y){
@@ -42,16 +42,17 @@ public class Gracz{
     this.rect = new CollisionRect(x,y,WIDTH, HEIGHT);
     move = 1;
     bomb_timer = 0;
+    speedup_timer=0;
     hit_timer = 0;
     moveTimer = 0;
     moves = new Animation[4];//definicja tablicy animacji
     //siekam sprajta to nie fanta
-    TextureRegion[][] moveSpriteSheet = TextureRegion.split(new Texture("chicken.png"), PIXEL_WIDTH, PIXEL_HEIGHT);
+    TextureRegion[][] moveSpriteSheet = TextureRegion.split(new Texture("gosciu.png"), PIXEL_WIDTH, PIXEL_HEIGHT);
     //tablica animacji
-    moves[0] = new Animation(SPEED_ANIMATION, moveSpriteSheet[0]);//w dol
+    moves[0] = new Animation(SPEED_ANIMATION, moveSpriteSheet[0]);//w gore
     moves[1] = new Animation(SPEED_ANIMATION, moveSpriteSheet[1]);//w lewo
-    moves[2] = new Animation(SPEED_ANIMATION, moveSpriteSheet[2]);//w prawo
-    moves[3] = new Animation(SPEED_ANIMATION, moveSpriteSheet[3]);//w gore
+    moves[2] = new Animation(SPEED_ANIMATION, moveSpriteSheet[2]);//w dol
+    moves[3] = new Animation(SPEED_ANIMATION, moveSpriteSheet[3]);//w prawo
 
 
 
@@ -59,7 +60,7 @@ public class Gracz{
 
     public void moveRight(){
         if(this.RIGHT_BLOCKED == false) this.x += SPEED * Gdx.graphics.getDeltaTime();
-            move = 2;
+            move = 3;
             stateTime += delta / SPEED_ANIMATION;
     }
     public void moveLeft(){
@@ -69,17 +70,17 @@ public class Gracz{
     }
     public void moveUp(){
         if(this.UP_BLOCKED == false) this.y += SPEED * Gdx.graphics.getDeltaTime();
-            move = 3;
+            move = 0;
             stateTime += delta / SPEED_ANIMATION;
     }
     public void moveDown(){
         if(this.DOWN_BLOCKED == false) this.y -= SPEED * Gdx.graphics.getDeltaTime();
-            move = 0;
+            move = 2;
             stateTime += delta / SPEED_ANIMATION;
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw((TextureRegion) moves[move].getKeyFrame(stateTime,true),x,y,WIDTH,HEIGHT);
+        batch.draw((TextureRegion) moves[move].getKeyFrame(stateTime,true),x,y,WIDTH+10,HEIGHT+10);
     }
     public void dropBomb(ArrayList<Bomb> bomby){
         if(bomb_timer>=BOMB_WAIT_TIME) {
@@ -94,21 +95,32 @@ public class Gracz{
     public void update(float delta) {
         bomb_timer += delta;
         hit_timer += delta;
-        rect.move(this.x, this.y);
+        speedup_timer +=delta;
+        this.rect.move(this.x, this.y);
         RIGHT_BLOCKED = false;
         LEFT_BLOCKED = false;
         UP_BLOCKED = false;
         DOWN_BLOCKED = false;
+        if(speedup_timer>=SPEEDUP_WAIT_TIME && this.SPEED > 150){
+            this.SPEED =150;
+        }
     }
 
     public CollisionRect getCollisionRect(){
         return rect;
     }
 
+    public void speedup(){
+        this.SPEED +=100;
+        speedup_timer = 0;
+    }
+
     public void getHit(int moc) {
         if(hit_timer>=HIT_WAIT_TIME){
-            this.HIT_POINTS -= moc;
+            this.HIT_POINTS--;
             hit_timer=0;
+            this.x = 50;
+            this.y = 450;
         }
     }
 }

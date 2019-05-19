@@ -27,6 +27,17 @@ public class Wall extends Rectangle {
         }
 
     }
+    public Wall(float y, float x, int t){
+        this.x = x;
+        this.y = y;
+        this.rect = new CollisionRect(this.x,this.y,WALL_WIDTH, WALL_HEIGHT);
+        if(t == 2){
+            texture = new Texture("oak.jpg");
+        }else  if(t != 2){
+            texture = new Texture("Wall.png");
+        }
+
+    }
 
     public void render(SpriteBatch batch) {
         batch.draw(texture, this.x, this.y, WALL_WIDTH, WALL_HEIGHT);
